@@ -16,15 +16,47 @@ namespace MovieStreamingFramework.Actors
 
             Receive<PlayMovieMessage>(
                 message => HandlePlayMovieMessage(message)
-                //message => message.UserId == 422
+                //message => message.UserId == 1
             );
         }
 
-        private void HandlePlayMovieMessage(PlayMovieMessage message) 
+
+        //Actor Lifecucle hooks
+
+        private void HandlePlayMovieMessage(PlayMovieMessage message)
         {
-            Console.WriteLine($"Recieved movie title {message.MovieTitle}");
-            Console.WriteLine($"Recieved user ID {message.UserId}");
+            ColorConsole.WriteLineYellow(
+                $"PlayMovieMessage {message.MovieTitle} for user {message.UserId}");
         }
+
+        protected override void PreStart()
+        {
+            ColorConsole.WriteLineGreen("PlaybackActor PreStart");
+        }
+
+        protected override void PostStop()
+        {
+            ColorConsole.WriteLineGreen("PlaybackActor PostStop");
+        }
+
+        protected override void PreRestart(Exception reason, object message)
+        {
+            ColorConsole.WriteLineGreen($"PlaybackActor PreRestart because: {reason}");
+            base.PreRestart(reason, message);
+        }
+
+        protected override void PostRestart(Exception reason)
+        {
+            ColorConsole.WriteLineGreen($"PlaybackActor PostRestart because: {reason}");
+            base.PostRestart(reason);
+        }
+
+
+        //private void HandlePlayMovieMessage(PlayMovieMessage message) 
+        //{
+        //    Console.WriteLine($"Recieved movie title {message.MovieTitle}");
+        //    Console.WriteLine($"Recieved user ID {message.UserId}");
+        //}
 
         //protected override void OnReceive(object message) 
         //{
