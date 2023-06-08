@@ -35,5 +35,19 @@ namespace MovieStreamingFramework
             Console.WriteLine(message);
             Console.ResetColor();
         }
+
+        public static void WriteLineGray(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.WriteLine(message);
+            Console.ResetColor();
+        }
+
+        public static void WriteLineMagenta(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine(message);
+            Console.ResetColor();
+        }
     }
 }

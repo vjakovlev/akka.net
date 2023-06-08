@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace MovieStreamingFramework.Messages
 {
-    public class StopMovieMessage
+    public class IncrementPlayCountMessage
     {
-        public int UserId { get; private set; }
+        public string MovieTitle { get; private set; }
 
-        public StopMovieMessage(int userId)
+        public IncrementPlayCountMessage(string movieTitle)
         {
-            UserId = userId;
+            MovieTitle = movieTitle;
         }
     }
 }

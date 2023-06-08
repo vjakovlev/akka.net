@@ -10,17 +10,20 @@ namespace MovieStreamingFramework.Actors
 {
     public class UserActor : ReceiveActor
     {
+        private readonly int _userId;
         private string _currentlyWatching;
 
-        public UserActor()
+        public UserActor(int userId)
         {
-            Console.WriteLine("Createing a UserActor");
+            _userId = userId;
+
+            //Console.WriteLine("Createing a UserActor");
 
             //Receive<PlayMovieMessage>(message => HandlePlayMovieMessage(message));
             //Receive<StopMovieMessage>(message => HandleStopMovieMessage());
 
             ColorConsole.WriteLineCyan("Setting initial behaviour to stopped");
-            StoppedState();
+            StoppedState();        
         }
 
         //behaviour
@@ -33,7 +36,6 @@ namespace MovieStreamingFramework.Actors
 
             ColorConsole.WriteLineCyan("UserActor has now become Playing");
         }
-
         //behaviour
         private void StoppedState() 
         {
@@ -48,6 +50,9 @@ namespace MovieStreamingFramework.Actors
         {
             _currentlyWatching = title;
             ColorConsole.WriteLineYellow($"User is currently watching {_currentlyWatching}");
+
+            Context.ActorSelection("/user/Playback/PlaybackStatistics/MoviePlayCounter")
+                .Tell(new IncrementPlayCountMessage(title));
 
             Become(PlayingState);
         }

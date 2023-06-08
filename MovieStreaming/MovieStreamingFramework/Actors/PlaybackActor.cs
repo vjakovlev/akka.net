@@ -20,37 +20,31 @@ namespace MovieStreamingFramework.Actors
             );
         }
 
-
-        //Actor Lifecucle hooks
-
         private void HandlePlayMovieMessage(PlayMovieMessage message)
         {
             ColorConsole.WriteLineYellow(
                 $"PlayMovieMessage {message.MovieTitle} for user {message.UserId}");
         }
 
+        //Actor Lifecycle hooks
         protected override void PreStart()
         {
             ColorConsole.WriteLineGreen("PlaybackActor PreStart");
         }
-
         protected override void PostStop()
         {
             ColorConsole.WriteLineGreen("PlaybackActor PostStop");
         }
-
         protected override void PreRestart(Exception reason, object message)
         {
             ColorConsole.WriteLineGreen($"PlaybackActor PreRestart because: {reason}");
             base.PreRestart(reason, message);
         }
-
         protected override void PostRestart(Exception reason)
         {
             ColorConsole.WriteLineGreen($"PlaybackActor PostRestart because: {reason}");
             base.PostRestart(reason);
         }
-
 
         //private void HandlePlayMovieMessage(PlayMovieMessage message) 
         //{

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Threading;
 using Akka.Actor;
 using MovieStreamingFramework.Actors;
 using MovieStreamingFramework.Messages;
+using Newtonsoft.Json.Bson;
 
 namespace MovieStreamingFramework
 {
@@ -9,6 +11,12 @@ namespace MovieStreamingFramework
     {
         private static ActorSystem MovieStreamingActorSystem;
         static void Main(string[] args)
+        {
+            //ActorsDemo();
+            ActorHierarchy();
+        }
+
+        private static void ActorsDemo() 
         {
             MovieStreamingActorSystem = ActorSystem.Create("MovieStreamingActorSystem");
             Console.WriteLine("Actor system created");
@@ -42,12 +50,12 @@ namespace MovieStreamingFramework
 
             Console.ReadKey();
             Console.WriteLine("Sending StopMovieMessage");
-            userActorRef.Tell(new StopMovieMessage());
+            userActorRef.Tell(new StopMovieMessage(1));
 
 
             Console.ReadKey();
             Console.WriteLine("Sending another StopMovieMessage");
-            userActorRef.Tell(new StopMovieMessage());
+            userActorRef.Tell(new StopMovieMessage(1));
 
 
             // poison pill will terminate the actor and invoke the PostStop() hook
@@ -60,6 +68,59 @@ namespace MovieStreamingFramework
             Console.WriteLine("Actor System Shutdown");
 
             Console.ReadKey();
+        }
+        private static void ActorHierarchy() 
+        {
+            // creating the system
+            ColorConsole.WriteLineGray("Creating MovieStreamingActorSystem");
+            MovieStreamingActorSystem = ActorSystem.Create("MovieStreamingActorSystem");
+
+            // creating actor in the system
+            ColorConsole.WriteLineGray("Creating actor supervisory hierarchy");
+            MovieStreamingActorSystem.ActorOf(Props.Create<PlaybackActorV2>(), "Playback");
+
+            do
+            {
+                ShortPause(1);
+
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                ColorConsole.WriteLineGray("enter a command and press enter");
+
+                var command = Console.ReadLine();
+
+                if (command.StartsWith("play")) 
+                {
+                    var userId = int.Parse(command.Split(',')[1]);
+                    var movieTitle = command.Split(',')[2];
+
+                    var message = new PlayMovieMessage(movieTitle, userId);
+                    MovieStreamingActorSystem.ActorSelection("/user/Playback/UserCoordinator").Tell(message);
+                }
+
+                if (command.StartsWith("stop")) 
+                {
+                    var userId = int.Parse(command.Split(',')[1]);
+                     
+                    var message = new StopMovieMessage(userId);
+                    MovieStreamingActorSystem.ActorSelection("/user/Playback/UserCoordinator").Tell(message);
+                }
+
+                if (command == "exit")
+                {
+                    MovieStreamingActorSystem.Shutdown();
+                    MovieStreamingActorSystem.AwaitTermination();
+                    ColorConsole.WriteLineGray("Actor system shutdown");
+                    Console.ReadKey();
+                    Environment.Exit(1);
+                }
+
+            } while (true);
+        }
+
+        private static void ShortPause(int time) 
+        {
+            Thread.Sleep(time * 1000);
         }
     }
 }
