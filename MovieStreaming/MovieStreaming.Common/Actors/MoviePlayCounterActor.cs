@@ -1,13 +1,10 @@
 ﻿using Akka.Actor;
-using MovieStreamingFramework.Exceptions;
-using MovieStreamingFramework.Messages;
+using MovieStreamingFramework.Common.Exceptions;
+using MovieStreamingFramework.Common.Messages;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace MovieStreamingFramework.Actors
+namespace MovieStreamingFramework.Common.Actors
 {
     public class MoviePlayCounterActor : ReceiveActor
     {

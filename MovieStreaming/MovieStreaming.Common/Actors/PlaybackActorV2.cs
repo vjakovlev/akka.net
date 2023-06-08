@@ -1,11 +1,7 @@
 ﻿using Akka.Actor;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace MovieStreamingFramework.Actors
+namespace MovieStreamingFramework.Common.Actors
 {
     public class PlaybackActorV2 : ReceiveActor
     {

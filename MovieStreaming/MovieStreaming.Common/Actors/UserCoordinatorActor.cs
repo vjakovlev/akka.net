@@ -1,17 +1,13 @@
 ﻿using Akka.Actor;
-using MovieStreamingFramework.Messages;
+using MovieStreamingFramework.Common.Messages;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace MovieStreamingFramework.Actors
+namespace MovieStreamingFramework.Common.Actors
 {
     public class UserCoordinatorActor : ReceiveActor
     {
         private readonly Dictionary<int, IActorRef> _users;
-
 
         public UserCoordinatorActor()
         {

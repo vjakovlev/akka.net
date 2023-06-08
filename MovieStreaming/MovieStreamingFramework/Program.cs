@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading;
 using Akka.Actor;
-using MovieStreamingFramework.Actors;
-using MovieStreamingFramework.Messages;
-using Newtonsoft.Json.Bson;
+using MovieStreamingFramework.Common;
+using MovieStreamingFramework.Common.Actors;
+using MovieStreamingFramework.Common.Messages;
 
 namespace MovieStreamingFramework
 {

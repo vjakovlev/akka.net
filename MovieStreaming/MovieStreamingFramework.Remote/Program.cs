@@ -1,5 +1,5 @@
 ﻿using Akka.Actor;
-using System;
+using MovieStreamingFramework.Common;
 
 namespace MovieStreamingFramework.Remote
 {
@@ -8,7 +8,7 @@ namespace MovieStreamingFramework.Remote
         private static ActorSystem MovieStreamingActorSystem;
         static void Main(string[] args)
         {
-            //ColorConsole.WrtieLineGray("Creating MovieStreamingSystem in remote process");
+            ColorConsole.WriteLineGray("Creating MovieStreamingSystem in remote process");
 
             MovieStreamingActorSystem = ActorSystem.Create("MovieStreamingActorSystem");
 
